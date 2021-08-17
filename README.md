@@ -32,7 +32,8 @@ ShortyShell utiliza una misma estructura de mensaje para todas sus comunicacione
 La estructura general del protocolo se explica en el siguiente diagrama.
 
 
-![image](https://user-images.githubusercontent.com/46933082/129646563-6540094b-d36d-40c8-8ff7-3c1fadba9ac3.png)
+![image](https://user-images.githubusercontent.com/46933082/129789826-f5be47ed-7a26-4153-b215-f35fe5c02ebb.png)
+
 
 
 Los mensajes que puede enviar el cliente están definidos de la siguiente forma. En la tabla verá significado semántico en la columna de procedimiento, mientras que en la columna de URL encontrará el URL correspondiente, en la que es muy fácil deducir a que se refiere el código y por ende no se pondrá entre paréntesis su significado. Todas estas peticiones de cliente son independientes entre si y el servidor no requiere mantener información de estado para manejar estas.
