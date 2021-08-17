@@ -34,8 +34,8 @@ Los mensajes recibidos son todos muy similares en estructura, contienen un outpu
 Los errores en ShortyShell se manejan mediante la captura de excepciones, hay principalmente tres tipos de error, error de conección y error en tipo de dato. Los errores de coneccion se manejan levantando una excepción de tipo RuntimeError("socket connection broken"), no retornan nada al cliente. Los mensajes de falla en tipo de dato se manejan capturando la excepción y retornando al usuario un mensaje de error que quiere decir que alguno de los valores ingresados no se encuentra en la forma correcta.A continuación hay una tabla con cada error y los mensajes que imprime en la consola interactiva.
 | Error | Mensaje   |
 |------|------|
-| Error de conección |  |
-| Error de tipo | Assertions failed in 'remove_file_from_bucket': {e} |
+| Error de conexión |  |
+| Error de tipo |  |
 
 ### 4. Regla de protocolo
 
