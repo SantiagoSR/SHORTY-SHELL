@@ -55,7 +55,7 @@ def llamada_servidor_contar():
         global COUNT_HOST 
         COUNT_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
         global COUNT_PORT 
-        COUNT_PORT = 3001
+        COUNT_PORT = 3000
         #s.connect((HOST, PORT))
         s = create_socket(COUNT_HOST, COUNT_PORT)
         message = "Pedir numero de peticiones que llevamos"
