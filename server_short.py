@@ -53,7 +53,7 @@ def llamada_servidor_contar():
         )
     try: 
         global COUNT_HOST 
-        COUNT_HOST = "127.0.0.1"
+        COUNT_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
         global COUNT_PORT 
         COUNT_PORT = 3001
         #s.connect((HOST, PORT))
