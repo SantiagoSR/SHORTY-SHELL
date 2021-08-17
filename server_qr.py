@@ -36,7 +36,7 @@ def llamada_servidor_short(url):
 
     logging.info(f'Started shortening transaction for URL:{url}')
     global SHORT_HOST
-    SHORT_HOST = "127.0.0.1"
+    SHORT_HOST = "ec2-54-227-29-29.compute-1.amazonaws.com"
     global SHORT_PORT
     SHORT_PORT = 3003
     s = create_socket(SHORT_HOST, SHORT_PORT)
