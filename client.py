@@ -1,8 +1,15 @@
+import sys
 import socket
-import cmd
-import logging
+import threading
+import contextlib
 import pyqrcode
 import struct
+import logging
+
+def make_qr(url):
+
+    qr = pyqrcode.create(url).terminal()
+    return qr
 
 def create_socket(HOST, PORT):
     logging.basicConfig(filename="Client.log",
@@ -11,19 +18,21 @@ def create_socket(HOST, PORT):
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-    logging.info(f'-- Created socket')
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
+    logging.info(f'CREATED SOCKET')
     return s
 
-def shorten(url):
+def llamada_servidor_short(url):
     logging.basicConfig(filename="Client.log",
         filemode="a",
         level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s", 
+        format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
-        )    
-    logging.info(f'STARTED SHORTENING TRANSACTION FOR URL:{url}')
+        )
+
+    logging.info(f'Started shortening transaction for URL:{url}')
     global SHORT_HOST
     SHORT_HOST = "ec2-54-227-29-29.compute-1.amazonaws.com"
     global SHORT_PORT
@@ -32,81 +41,62 @@ def shorten(url):
     s.send(url.encode('ascii'))
     logging.info(f'-- Sent URL')
     new_url = s.recv(1024).decode()
+    print(new_url)
     logging.info(f'-- Received QR')
-    print(f"{new_url}")
+    s.close()
+    return new_url
 
-def get_requests():
+def start(socket):
     logging.basicConfig(filename="Client.log",
         filemode="a",
         level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s", 
+        format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-    logging.info(f'STARTED GET REQUESTS TRANSACTIONS')
-    global COUNT_HOST
-    COUNT_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
-    global COUNT_PORT 
-    COUNT_PORT = 3000
-    s = create_socket(COUNT_HOST, COUNT_PORT)
-    wanted = "How many?"
-    s.send(wanted.encode('ascii'))
-    logging.info(f'-- Sent request')
-    short_requests = s.recv(1024).decode()
-    logging.info(f'-- Received Amount')
-    print(f"{short_requests}")
-
-def QR(url):
-    logging.basicConfig(filename="Client.log",
-        filemode="a",
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s", 
-        datefmt='%m/%d/%Y %I:%M:%S %p'
-        )
-    logging.info(f'STARTED QR GENERATION TRANSACTION FOR URL:{url}')
-    global QR_HOST
-    QR_HOST = "ec2-44-198-32-98.compute-1.amazonaws.com"
-    global QR_PORT
-    QR_PORT = 3000
-    s = create_socket(QR_HOST, QR_PORT)
-    s.send(url.encode('ascii'))
-    logging.info(f'-- Sent URL')
-    qr_code = s.recv(65536).decode()
-    logging.info(f'-- Received QR')
-    print(f"{qr_code}")
-
-
-class ShortyShell(cmd.Cmd):
-    intro = "Welcome to shorty, the URL shortner. \n Type help COMMAND_NAME to see further information about the command. \n Type bye to leave."
-    prompt = "ShortyShell -> "
-    file = None
-
-    def do_SHORT(self, arg):
-        'Shortens a given URL: SHORT <URL>'
-        shorten(str(arg))
-    def do_QR(self, arg):
-        'GEnerates QR based on URL: QR <URL> '
-        QR(str(arg))
-    def do_REQUESTS(self, arg):
-        'Returns the amount of requests our servers have attended: REQUESTS'
-        get_requests()
-    def do_bye(self, arg):
-        'Stop recording, close the turtle window, and exit:  BYE'
-        print('Bye bye!')
-        self.close()
-        return True
-
-    def close(self):
-        if self.file:
-            self.file.close()
-            self.file = None
-
-def main():
-    shell = ShortyShell()
 
     try:
-        shell.cmdloop()
+        while True:
+            data = socket.recv(1024)
+            print(data.decode())
+            logging.info(f'-- Receiving data')
+            if not data:
+                break
+            url = llamada_servidor_short(data.decode())
+            logging.info(f'-- Calling shorty server')
+            #print(url)
+            request = make_qr(url)
+            print(type(request))
+            socket.sendall(request.encode('ascii'))
+            logging.info(f'-- Sending back QR')
+
+    except KeyboardInterrupt:
+        #print("Cerrando servidor")
+        logging.info(f'TRANSACTION ENDED BY KEYBOARD INTERRUPT')
+        socket.close()
+    finally:
+        logging.info(f'TRANSACTION ENDED')
+        socket.close()
+
+def main():
+    print("Creating Socket")
+    s = socket.socket()
+    global THIS_HOST
+    THIS_HOST = ""
+    global THIS_PORT
+    THIS_PORT = 3000
+    s.bind((THIS_HOST, THIS_PORT))
+    try:
+        s.listen(5)
+        while True:
+            conn, addr = s.accept()
+            print("Connected to : ", addr)
+            t = threading.Thread(target=start, args=(conn,))
+            t.start()
     except Exception as e:
-        print(f"Sorry, we were not expecting that. {e}")
+        print(e)
+        s.close()
+    finally:
+        s.close()
 
 if __name__ == "__main__":
     main()
@@ -117,4 +107,3 @@ if __name__ == "__main__":
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-    
