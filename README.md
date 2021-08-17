@@ -48,6 +48,3 @@ Los errores en ShortyShell se manejan mediante la captura de excepciones, hay pr
 ### 4. Regla de protocolo
 
 Para la comunicacion entre los diferentes nodos y cliente, al manejarlo por un IPC de tipo independiente, el cual no se ve afectada la ejecuccion de los otros procesos mientras esta cooperando. El Inter-process comunication (IPC), es el mecanismo el cual nos permite cominicarnos y sincronizar las acciones entre los diferentes nodos. En nuestra arquitectura de comunicacion, estamos implementando la de sockets, por medio de la capa de transporte TCP. Esto lo hacemos ya que TCP es un protocolo confiable, y va a esperar un largo, largo tiempo antes de rendirse con una conexión.
-
-https://docs.python.org/es/3/howto/sockets.html
-https://www.geeksforgeeks.org/inter-process-communication-ipc/
