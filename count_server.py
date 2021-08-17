@@ -26,11 +26,11 @@ def start(socket):
             if not data:
                 break
             request = str(make_tiny())
-            #print("Peticiones : ", request)
+            print("Peticiones : ", request)
             socket.sendall(request.encode('ascii'))
 
     except KeyboardInterrupt:
-        #print("Cerrando servidor")
+        print("Cerrando servidor")
         socket.close()
         logging.info(f'KEYBOARD INTERRUPT SHUTDOWN')
     finally:
@@ -66,7 +66,7 @@ def return_count_short():
 
 def main():
     global THIS_HOST
-    THIS_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
+    THIS_HOST = ""
     global THIS_PORT
     THIS_PORT = 3000
     print("Creating Socket")
