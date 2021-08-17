@@ -25,9 +25,9 @@ def shorten(url):
         )    
     logging.info(f'STARTED SHORTENING TRANSACTION FOR URL:{url}')
     global SHORT_HOST
-    SHORT_HOST = "127.0.0.1"
+    SHORT_HOST = "ec2-54-227-29-29.compute-1.amazonaws.com"
     global SHORT_PORT
-    SHORT_PORT = 3003
+    SHORT_PORT = 3000
     s = create_socket(SHORT_HOST, SHORT_PORT)
     s.send(url.encode('ascii'))
     logging.info(f'-- Sent URL')
@@ -44,9 +44,9 @@ def get_requests():
         )
     logging.info(f'STARTED GET REQUESTS TRANSACTIONS')
     global COUNT_HOST
-    COUNT_HOST = "127.0.0.1"
+    COUNT_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
     global COUNT_PORT 
-    COUNT_PORT = 3001
+    COUNT_PORT = 3000
     s = create_socket(COUNT_HOST, COUNT_PORT)
     wanted = "How many?"
     s.send(wanted.encode('ascii'))
@@ -64,7 +64,7 @@ def QR(url):
         )
     logging.info(f'STARTED QR GENERATION TRANSACTION FOR URL:{url}')
     global QR_HOST
-    QR_HOST = "127.0.0.1"
+    QR_HOST = "ec2-44-198-32-98.compute-1.amazonaws.com"
     global QR_PORT
     QR_PORT = 3000
     s = create_socket(QR_HOST, QR_PORT)
@@ -117,5 +117,4 @@ if __name__ == "__main__":
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-
     
