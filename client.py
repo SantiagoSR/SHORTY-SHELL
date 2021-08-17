@@ -63,14 +63,14 @@ def start(socket):
                 break
             url = llamada_servidor_short(data.decode())
             logging.info(f'-- Calling shorty server')
-            #print(url)
+           
             request = make_qr(url)
             print(type(request))
             socket.sendall(request.encode('ascii'))
             logging.info(f'-- Sending back QR')
 
     except KeyboardInterrupt:
-        #print("Cerrando servidor")
+        
         logging.info(f'TRANSACTION ENDED BY KEYBOARD INTERRUPT')
         socket.close()
     finally:
