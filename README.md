@@ -10,7 +10,7 @@ Practica numero 1 topicos especiales en telemática
 
 ## 1. Especificación del Servicio
 
-El presente es un servicio de acortar y generar códigos QR para links de internet. Esto se hizo con la intención de que el usuario pueda enviar los links al servidor para después generar unos más cortos y además compartir el código QR por terminal para su uso.
+El presente es un servicio de acortar y verificar el status para links de internet. Esto se hizo con la intención de que el usuario pueda enviar los links al servidor para después generar unos más cortos y además tener el conocimiento de la pagina por terminal para su uso.
 
 Para efectos de facilidad de uso se desarrolló una shell interactiva llamada ShortyShell para el cliente, en la que se implementaron además de los comandos básicos de ShortyShell comandos de ayuda para el usuario. Estos comandos de ayuda listan la sintaxis correcta de cada una de estas operaciones y explican lo que cada una hace. Las instrucciones para llamar a estas ayudas son visibles cuando el cliente accede a ShortyShell.
 
@@ -23,7 +23,7 @@ ShortyShell utiliza una misma estructura de mensaje para todas sus comunicacione
 | Mensaje | Descripción   |
 |------|------|
 | SHORT <URL> | Recorta un URL  |
-| QR <URL> | Genera un QR con el URL |
+| STATUS <URL> | Estado de la pagina |
 | REQUESTS | Lista todos los Requests hechos, teniendo en cuenta Request |
 | bye | termina la sesión |
 
