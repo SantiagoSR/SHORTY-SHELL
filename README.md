@@ -20,6 +20,12 @@ Finalmente, algunas consideraciones adicionales sobre el servicio. El comportami
 ## 2. Vocabulario del Mensaje
 
 ShortyShell utiliza una misma estructura de mensaje para todas sus comunicaciones;
+| Mensaje | Descripción   |
+|------|------|
+| SHORT <URL> | Recorta un URL  |
+| QR <URL> | Genera un QR con el URL |
+| REQUESTS | Lista todos los Requests hechos, teniendo en cuenta Request |
+| bye | termina la sesión |
 
 ## 3. Regla de Procedimientos
 
