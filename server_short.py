@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
 
-from __future__ import with_statement														
+from __future__ import with_statement
+
 import sys
 import socket
 import threading
@@ -8,16 +8,16 @@ import contextlib
 import logging
 
 try:
-	from urllib.parse import urlencode		
+        from urllib.parse import urlencode
 
 except ImportError:
-	from urllib import urlencode
+        from urllib import urlencode
 
 try:
-	from urllib.request import urlopen
+        from urllib.request import urlopen
 
 except ImportError:
-	from urllib.request import urlopen
+        from urllib.request import urlopen
 
 def make_tiny(url):
     logging.basicConfig(filename="Client.log",
@@ -27,7 +27,7 @@ def make_tiny(url):
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
     request_url = ('http://tinyurl.com/api-create.php?' + urlencode({'url':url}))
-    
+
     with contextlib.closing(urlopen(request_url)) as response:
         logging.info(f'-- Shortened URL')
         return response.read().decode('utf-8')
@@ -51,10 +51,10 @@ def llamada_servidor_contar():
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-    try: 
-        global COUNT_HOST 
+    try:
+        global COUNT_HOST
         COUNT_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
-        global COUNT_PORT 
+        global COUNT_PORT
         COUNT_PORT = 3000
         #s.connect((HOST, PORT))
         s = create_socket(COUNT_HOST, COUNT_PORT)
@@ -84,10 +84,11 @@ def start(socket):
                 break
             url = data.decode()
             request = make_tiny(url)
+            print(request)
             logging.info(f'-- SHORTENED URL')
             socket.sendall(request.encode('ascii'))
             logging.info(f'-- Returned shortened URL')
-    
+
     except KeyboardInterrupt:
         print("Cerrando servidor")
         socket.close()
@@ -98,9 +99,9 @@ def main():
     print("Creating Socket")
     s = socket.socket()
     global THIS_HOST
-    THIS_HOST = "127.0.0.1"
-    global THIS_PORT 
-    THIS_PORT = 3003
+    THIS_HOST = ""
+    global THIS_PORT
+    THIS_PORT = 3000
     s.bind((THIS_HOST, THIS_PORT))
     try:
         s.listen(5)
