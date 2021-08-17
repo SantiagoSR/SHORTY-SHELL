@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sys
 import socket
 import threading
@@ -38,12 +36,14 @@ def llamada_servidor_short(url):
     global SHORT_HOST
     SHORT_HOST = "ec2-54-227-29-29.compute-1.amazonaws.com"
     global SHORT_PORT
-    SHORT_PORT = 3003
+    SHORT_PORT = 3000
     s = create_socket(SHORT_HOST, SHORT_PORT)
     s.send(url.encode('ascii'))
     logging.info(f'-- Sent URL')
     new_url = s.recv(1024).decode()
+    print(new_url)
     logging.info(f'-- Received QR')
+    s.close()
     return new_url
 
 def start(socket):
@@ -56,7 +56,8 @@ def start(socket):
 
     try:
         while True:
-            data = socket.recv(1048)
+            data = socket.recv(1024)
+            print(data.decode())
             logging.info(f'-- Receiving data')
             if not data:
                 break
@@ -64,9 +65,10 @@ def start(socket):
             logging.info(f'-- Calling shorty server')
             #print(url)
             request = make_qr(url)
+            print(type(request))
             socket.sendall(request.encode('ascii'))
             logging.info(f'-- Sending back QR')
-    
+
     except KeyboardInterrupt:
         #print("Cerrando servidor")
         logging.info(f'TRANSACTION ENDED BY KEYBOARD INTERRUPT')
@@ -78,8 +80,8 @@ def start(socket):
 def main():
     print("Creating Socket")
     s = socket.socket()
-    global THIS_HOST 
-    THIS_HOST = "127.0.0.1"
+    global THIS_HOST
+    THIS_HOST = ""
     global THIS_PORT
     THIS_PORT = 3000
     s.bind((THIS_HOST, THIS_PORT))
@@ -92,16 +94,16 @@ def main():
             t.start()
     except Exception as e:
         print(e)
+        s.close()
     finally:
         s.close()
 
 if __name__ == "__main__":
     main()
-    
+
     logging.basicConfig(filename="Client.log",
         filemode="a",
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt='%m/%d/%Y %I:%M:%S %p'
         )
-
