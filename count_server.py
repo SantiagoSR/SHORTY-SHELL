@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sys
 import socket
 import threading
@@ -67,10 +65,10 @@ def return_count_short():
 
 
 def main():
-    global THIS_HOST 
-    THIS_HOST = "127.0.0.1"
+    global THIS_HOST
+    THIS_HOST = "ec2-54-226-49-19.compute-1.amazonaws.com"
     global THIS_PORT
-    THIS_PORT = 3001
+    THIS_PORT = 3000
     print("Creating Socket")
     logging.info(f'TRANSACTION BEGINS')
     s = socket.socket()
